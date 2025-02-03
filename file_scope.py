@@ -24,7 +24,7 @@ scope_surface = pygame.Surface(screen_size, pygame.SRCALPHA)
 scope_renderer = softscope.OscilloscopeRenderer(scope_surface)
 
 # 파일 불러오기
-file_path = "sample/sirius.mp3"
+file_path = "sample/flower.mp3"
 
 sound = pygame.mixer.Sound(file_path)
 live_audio_file_manager = softscope.LiveAudioFileManager(file_path)
@@ -60,7 +60,7 @@ while on:
 
 
     scope_renderer.extend(
-        live_audio_file_manager.get_current_audio_data(1000)
+        live_audio_file_manager.read(1500)
     )
 
     scope_renderer.render()
