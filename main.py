@@ -10,12 +10,12 @@ import softscope
 pygame.init()
 
 on = True
-screen_size = (1000, 1000)
+screen_size = (500, 500)
 fps = 120
 dt = 1000 // fps
 clk = pygame.time.Clock()
 
-screen = pygame.display.set_mode((1000, 1000), pygame.RESIZABLE)
+screen = pygame.display.set_mode(screen_size, pygame.RESIZABLE)
 
 
 
@@ -58,7 +58,6 @@ while on:
     screen.fill((0, 12, 0, 255))
 
 
-    # print(live_audio_file_manager.get_current_sample_index())
 
     scope_renderer.extend(
         live_audio_file_manager.get_current_audio_data(1000)
