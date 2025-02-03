@@ -3,10 +3,11 @@ from io import FileIO
 
 import soundfile
 
+from softscope.base_audio_manager import BaseAudioManager
 from softscope.typing import AudioData
 
 
-class LiveAudioFileManager:
+class LiveAudioFileManager(BaseAudioManager):
     def __init__(self, file: str | FileIO):
 
         file_data = soundfile.read(file)
@@ -25,7 +26,7 @@ class LiveAudioFileManager:
 
 
 
-    def get_current_audio_data(self, sample_count: int) -> AudioData:
+    def read(self, sample_count: int) -> AudioData:
         current_sample_index = self.get_current_sample_index()
 
         start_index = current_sample_index - sample_count
