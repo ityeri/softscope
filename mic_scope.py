@@ -20,13 +20,14 @@ screen = pygame.display.set_mode(screen_size, pygame.RESIZABLE)
 # OscilloscopeRenderer 세팅
 scope_surface = pygame.Surface(screen_size, pygame.SRCALPHA)
 scope_renderer = softscope.OscilloscopeRenderer(scope_surface,
-                                                graph_amplify=2)
+                                                graph_amplify=3)
 
 # 녹음 설정
-device_num = 36
+device_num = 25
 live_mic_manager = softscope.LiveMicManager(
     device_num,
-    buffer_size=1024
+    buffer_size=1024,
+    sample_late=48000
 )
 
 
