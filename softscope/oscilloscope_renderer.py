@@ -22,13 +22,12 @@ class OscilloscopeRenderer:
         self.surface_center_y: int = None
 
         self.surface_radius: int = None
-        self.graph_amplify: float = None
+        self.graph_amplify: float = graph_amplify
         self.graph_step: float = graph_step
 
         self.set_surface(surface,
                          surface_center=surface_center,
-                         surface_radius=surface_radius,
-                         graph_amplify=graph_amplify)
+                         surface_radius=surface_radius)
 
         self.scope_style: OscilloscopeStyle
 
@@ -42,8 +41,7 @@ class OscilloscopeRenderer:
 
     def set_surface(self, surface: pygame.Surface, *,
                     surface_center: tuple[int, int] | None = None,
-                    surface_radius: int | None = None,
-                    graph_amplify: float = 1):
+                    surface_radius: int | None = None):
 
         self.surface = surface
 
@@ -57,8 +55,6 @@ class OscilloscopeRenderer:
                 self.surface_radius = self.surface.get_width() / 2
             else: self.surface_radius = self.surface.get_height() / 2
         else: self.surface_radius = surface_radius
-
-        self.graph_amplify = graph_amplify
 
 
 
