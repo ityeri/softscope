@@ -37,7 +37,9 @@ class LiveMicManager(BaseAudioManager):
             device_info = p.get_device_info_by_index(i)
             # 입력 장치만 출력
             if device_info["maxInputChannels"] > 0:
-                print(f" |  디바이스 번호: {i}, 이름: {device_info['name']}, 입력 체널 수: {device_info['maxInputChannels']}")
+                print(f" |  디바이스 번호: {i}, 이름: {device_info['name']}, "
+                      f"입력 채널 수: {device_info['maxInputChannels']}, "
+                      f"기본 샘플링 레이트: {device_info['defaultSampleRate']}")
 
         if check_out_device:
 
