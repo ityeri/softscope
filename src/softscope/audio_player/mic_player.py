@@ -27,37 +27,3 @@ class MicPlayer(BaseAudioPlayer):
         stereo_audio_data = np.reshape(raw_audio_data, (-1, 2))
 
         return stereo_audio_data
-
-
-
-    @staticmethod
-    def check_available_device():
-        for i in range(p.get_device_count()):
-            device_info = p.get_device_info_by_index(i)
-            # 입력 장치만 출력
-            if 0 < device_info["maxInputChannels"]:
-                print(
-                    f"디바이스 번호: {i}, 이름: {device_info['name']}, "
-                    f"입력 채널 수: {device_info['maxInputChannels']}, "
-                    f"기본 샘플링 레이트: {device_info['defaultSampleRate']}"
-                )
-
-    @staticmethod
-    def check_stereo_available_device():
-        for i in range(p.get_device_count()):
-            device_info = p.get_device_info_by_index(i)
-            if device_info["maxInputChannels"] == 2:
-                print(
-                    f"번호: {i}, 이름: {device_info['name']}, "
-                    f"기본 샘플링 레이트: {device_info['defaultSampleRate']}"
-                )
-
-    @staticmethod
-    def check_mono_available_device():
-        for i in range(p.get_device_count()):
-            device_info = p.get_device_info_by_index(i)
-            if device_info["maxInputChannels"] == 1:
-                print(
-                    f"번호: {i}, 이름: {device_info['name']}, "
-                    f"기본 샘플링 레이트: {device_info['defaultSampleRate']}"
-                )
