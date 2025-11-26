@@ -19,7 +19,11 @@ class AudioFilePlayer(BaseAudioPlayer):
 
         self.played_time_old: float = 0
 
-    def set_start(self) -> None: self.start_time = time.time()
+    def set_start(self, start_time: float | None = None):
+        if start_time is not None:
+            self.start_time = start_time
+        else:
+            self.start_time = time.time()
 
     def time_to_sample_index(self, time_sec: float) -> int: return int(time_sec * self.sample_rate)
 
@@ -27,7 +31,7 @@ class AudioFilePlayer(BaseAudioPlayer):
 
 
 
-    def read(self, sample_count: int) -> AudioData: # TODO
+    def read(self) -> AudioData: # TODO
         start_index = self.time_to_sample_index(self.played_time_old)
 
         current_played_time = self.get_played_time()
