@@ -18,6 +18,7 @@ class MicPlayer(BaseAudioPlayer):
         )
         self.chunk_size: int = buffer_size
 
+    def set_start(self, start_time: float | None = None): pass
 
     def read(self) -> AudioData:
         data = self.stream.read(self.chunk_size)

@@ -62,7 +62,7 @@ if __name__ == '__main__':
         screen.fill((0, 12, 0, 255))
 
         scope_renderer.extend_sample(
-            audio_player.read(1500)
+            audio_player.read()
         )
 
         scope_renderer.render()
