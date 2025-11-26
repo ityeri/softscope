@@ -26,10 +26,9 @@ if __name__ == '__main__':
     scope_surface = pygame.Surface((screen_width, screen_height), pygame.SRCALPHA)
     scope_renderer = softscope.OscilloscopeRenderer(
         scope_surface,
-        scope_style=
-        OscilloscopeStyle(
-            OscilloscopeType.BASIC,
-            (50, 255, 255, 127)
+        style=OscilloscopeStyle(
+            OscilloscopeType.BASIC_LIGHTING,
+            (0, 255, 255, 255)
         )
     )
 

@@ -1,3 +1,5 @@
+import math
+
 import numpy
 import pygame
 import numpy as np
@@ -11,7 +13,7 @@ class OscilloscopeRenderer:
                  surface_radius: int | None = None,
                  graph_amplify: float = 1,
 
-                 scope_style: OscilloscopeStyle | None = None,
+                 style: OscilloscopeStyle | None = None,
                  graph_step: float = 1):
 
         self.surface: pygame.Surface = surface # 알파채널 Surface
@@ -24,18 +26,20 @@ class OscilloscopeRenderer:
         self.graph_amplify: float = graph_amplify
         self.graph_step: float = graph_step
 
-        self.set_surface(surface,
-                         surface_center=surface_center,
-                         surface_radius=surface_radius)
+        self.set_surface(
+            surface,
+            surface_center=surface_center,
+           surface_radius=surface_radius
+        )
 
         self.scope_style: OscilloscopeStyle
 
-        if scope_style is None:
-            self.scope_style = OscilloscopeStyle(
+        if style is None:
+            self.style = OscilloscopeStyle(
                 type= OscilloscopeType.BASIC,
                 color= (255, 255, 255, 127)
             )
-        else: self.scope_style = scope_style
+        else: self.style = style
 
 
     def set_surface(self, surface: pygame.Surface, *,
@@ -64,6 +68,8 @@ class OscilloscopeRenderer:
         cover_surface.fill((0, 0, 0, 100))
         self.surface.blit(cover_surface, (0, 0))
 
+        drawing_surface = pygame.Surface(self.surface.get_size(), pygame.SRCALPHA)
+
         before_sample_index: int = 0
         current_sample_index: int = 0
 
@@ -74,12 +80,33 @@ class OscilloscopeRenderer:
             before_sample = self.buffer[before_sample_index]
             current_sample = self.buffer[current_sample_index]
 
-            pygame.draw.line(self.surface, self.scope_style.color,
-                             self.sample_to_surface_value(before_sample),
-                             self.sample_to_surface_value(current_sample))
+            before_position = self.sample_to_surface_value(before_sample)
+            current_position = self.sample_to_surface_value(current_sample)
+
+            distance = math.sqrt(
+                math.pow(current_position[0] - before_position[0], 2)
+                + math.pow(current_position[1] - before_position[1], 2)
+            )
+
+            color: tuple[int, int, int, int] = (255, 0, 0, 255)
+
+            if self.style.type == OscilloscopeType.BASIC:
+                color = self.style.color
+            elif self.style.type == OscilloscopeType.BASIC_LIGHTING:
+                attenuation_rate = (distance / self.surface_radius) * 7
+                if attenuation_rate < 1:
+                    attenuation_rate = 1
+                color = tuple(map(lambda x: x / attenuation_rate, self.style.color))
+
+            pygame.draw.line(
+                drawing_surface, color,
+                before_position,
+                current_position
+            )
+
+        self.surface.blit(drawing_surface, (0, 0))
 
         self.buffer = np.empty(shape=(0, 2))
-        # surface_array = pygame.surfarray.array3d(self.surface)
 
     def sample_to_surface_value(self, sample: SingleSample) -> tuple[float, float]:
         x = float(sample[0] * self.surface_radius * self.graph_amplify  +  self.surface_center_x)
